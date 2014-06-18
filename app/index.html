@@ -1,0 +1,161 @@
+<!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" data-ng-app="formsApp" >
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forms Localstorage project</title>
+    <!-- build:css css/libraries.min.css -->
+    <!-- bower:css -->
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css css/app.min.css -->
+    <link rel="stylesheet" href="css/app.css">
+    <link rel="stylesheet" href="css/app_override.css">
+    <!-- endbuild -->
+    <!-- build:js js/vendor/modernizr.min.js -->
+    <script src="bower_components/modernizr/modernizr.js"></script>
+    <!-- endbuild -->
+  </head>
+  <body>
+    <div data-ng-controller="MainController">
+
+      <div class="row">
+        <div class="small-12 large-10 large-offset-1 column" id="firstStop">
+          <h1 class="text-center">Angular HTML5 local storage form</h1>
+        </div>
+      </div>
+      <div class="row">
+        <div class="small-12 large-8 large-offset-2 column">
+          <div data-alert class="alert-box ng-cloak" data-ng-show="submitSuccess">
+            {{submitMessage}}
+            <a href="#" class="close">&times;</a>
+          </div>
+          <div data-alert class="alert-box success ng-cloak" data-ng-show="saveSuccess">
+            Form saved successfully.
+            <a href="#" class="close">&times;</a>
+          </div>
+          <div data-alert class="alert-box alert ng-cloak" data-ng-show="saveError">
+            The form could not be saved at this time, do not close the browser.
+            <a href="#" class="close">&times;</a>
+          </div>
+          <form name="form1" novalidate>
+            <div class="row">
+              <div class="small-12 large-6 columns">
+                <label data-ng-class="{'error' : form1.firstName.$invalid && form1.firstName.$dirty }">First Name
+                  <input name="firstName" type="text" placeholder="Your first name" data-ng-model="user.firstName" required="required" autofocus />
+                </label>
+                <div ng-if="form1.firstName.$dirty" ng-messages="form1.firstName.$error" ng-messages-include="common-messages" class="ng-cloak">
+                <small class="error" ng-message="required">First name is required</small>
+                </div>
+              </div>
+              <div class="small-12 large-6 columns">
+                <label data-ng-class="{'error' : form1.lastName.$invalid && form1.lastName.$dirty }">Last Name
+                  <input name="lastName" type="text" placeholder="Your last name" data-ng-model="user.lastName" required="required" />
+                </label>
+                <div ng-if="form1.lastName.$dirty" ng-messages="form1.lastName.$error" ng-messages-include="common-messages" class="ng-cloak">
+                  <small class="error" ng-message="required">Last name is required</small>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="small-12 columns">
+                <label data-ng-class="{'error' : form1.email.$invalid && form1.email.$dirty }">Email address
+                  <input name="email" type="email" placeholder="Your best contact email address" data-ng-model="user.email" required="required" />
+                </label>
+                <div ng-if="form1.email.$dirty" ng-messages="form1.email.$error" ng-messages-include="common-messages" class="ng-cloak">
+                  <small class="error" ng-message="required">Email address is required</small>
+                  <small class="error" ng-message="email">Email address is invalid</small>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="small-12 large-6 columns">
+                <label>Some options</label>
+                <input id="checkbox1" type="checkbox"><label for="checkbox1">Option 1</label>
+                <input id="checkbox2" type="checkbox"><label for="checkbox2">Option 2</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="small-12 columns">
+                <label>Comments
+                  <textarea placeholder="Any other comments" data-ng-model="user.comments"></textarea>
+                </label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="large-12 columns">
+                <button id="thirdStop" class="secondary small" type="reset" data-ng-click="reset()">Reset</button>
+                <button id="secondStop" class="small" type="submit" data-ng-click="update(user)">Save</button>
+                <button data-ng-show="savedForms.length > 0" class="success small ng-cloak" type="submit" data-ng-click="submit()">Submit {{savedForms.length}} <ng-pluralize count="savedForms.length" when="{'one': 'form', 'other': 'forms'}"></ng-pluralize</button>
+              </div>
+            </div>
+          </form>
+          <!-- <pre>form = {{user | json}}</pre>
+          <pre>saved = {{savedForms | json}}</pre> -->
+        </div>
+      </div>
+    </div>
+
+    <!-- At the bottom of your page but inside of the body tag -->
+    <!-- Foundation Joyride introductory tour -->
+    <ol class="joyride-list" data-joyride>
+      <li data-id="firstStop" data-text="Next" data-options="tip_location: bottom;tip_animation:fade">
+        <p>Hello and welcome to the Forms Angular localstorage sample.</p>
+      </li>
+      <li data-id="secondStop" data-text="Next" data-options="tip_location: top;tip_animation:fade">
+        <p>Clicking <strong>Save</strong> will persist the form to localstorage to be retrieved later.</p>
+      </li>
+      <li data-id="thirdStop" data-text="Next" data-options="tip_location: top;tip_animation:fade">
+        <p>Clicking <strong>Reset</strong> will clear the form so it can be entered again.</p>
+      </li>
+      <li data-button="End" data-options="tip_animation:fade">
+        <p>When the application is no longer offline and a form has been saved, a submit button will be available to send saved forms to the server.</p>
+      </li>
+    </ol>
+
+    <!-- angular common validation messages -->
+    <script type="text/ng-template" id="common-messages">
+      <div ng-message="required">This field is required</div>
+      <div ng-message="minlength">This field is too short</div>
+    </script>
+
+    <!-- build:js js/vendor/libraries.min.js -->
+    <!-- bower:js -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/fastclick/lib/fastclick.js"></script>
+    <script src="bower_components/jquery.cookie/jquery.cookie.js"></script>
+    <script src="bower_components/store-js/store.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-messages/angular-messages.js"></script>
+    <script src="bower_components/angular-cache/dist/angular-cache.min.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:js js/vendor/foundation.min.js -->
+    <script src="bower_components/foundation/js/foundation/foundation.js"></script>
+    <!--<script src="bower_components/foundation/js/foundation/foundation.abide.js"></script>-->
+    <!--<script src="bower_components/foundation/js/foundation/foundation.accordion.js"></script>-->
+    <script src="bower_components/foundation/js/foundation/foundation.alert.js"></script>
+    <!--<script src="bower_components/foundation/js/foundation/foundation.clearing.js"></script>-->
+    <!--<script src="bower_components/foundation/js/foundation/foundation.dropdown.js"></script>-->
+    <!--<script src="bower_components/foundation/js/foundation/foundation.equalizer.js"></script>-->
+    <!--<script src="bower_components/foundation/js/foundation/foundation.interchange.js"></script>-->
+    <script src="bower_components/foundation/js/foundation/foundation.joyride.js"></script>
+    <!--<script src="bower_components/foundation/js/foundation/foundation.magellan.js"></script>-->
+    <!--<script src="bower_components/foundation/js/foundation/foundation.offcanvas.js"></script>-->
+    <!--<script src="bower_components/foundation/js/foundation/foundation.orbit.js"></script>-->
+    <!--<script src="bower_components/foundation/js/foundation/foundation.reveal.js"></script>-->
+    <!--<script src="bower_components/foundation/js/foundation/foundation.slider.js"></script>-->
+    <!--<script src="bower_components/foundation/js/foundation/foundation.tab.js"></script>-->
+    <!--<script src="bower_components/foundation/js/foundation/foundation.tooltip.js"></script>-->
+    <!--<script src="bower_components/foundation/js/foundation/foundation.topbar.js"></script>-->
+    <!-- endbuild -->
+    <!-- build:js js/app.min.js -->
+    <script src="js/app.js"></script>
+    <!-- endbuild -->
+    <!-- build:js js/app-ng.min.js -->
+    <script src="js/app-ng.js"></script>
+    <script src="js/controllers.js"></script>
+    <!-- endbuild -->
+  </body>
+</html>
